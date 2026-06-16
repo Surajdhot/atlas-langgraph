@@ -17,6 +17,8 @@ MAX_SUB_QUESTIONS: int = 5
 MIN_SUB_QUESTIONS: int = 2
 MAX_EVIDENCE_PER_QUESTION: int = 4
 CONFIDENCE_THRESHOLD: float = 0.6
+# Multiplier applied to a claim's confidence when sources conflict.
+CONFLICT_PENALTY: float = 0.5
 
 # --- LLM settings ------------------------------------------------------------
 # A current free-tier Gemini flash model. Overridable via the MODEL env var.
