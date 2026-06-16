@@ -22,11 +22,18 @@ def _format_evidence(evidence: list[Evidence]) -> str:
 
 
 def _resolve(ids: list, evidence: list[Evidence]) -> list[Evidence]:
-    """Map evidence indices from the LLM back to Evidence objects, ignoring bad ids."""
+    """Map evidence indices from the LLM back to Evidence objects, ignoring bad ids.
+
+    Accepts ints or numeric strings (the LLM sometimes quotes ids).
+    """
     resolved = []
     for raw in ids:
-        if isinstance(raw, int) and 0 <= raw < len(evidence):
-            resolved.append(evidence[raw])
+        try:
+            index = int(raw)
+        except (TypeError, ValueError):
+            continue
+        if 0 <= index < len(evidence):
+            resolved.append(evidence[index])
     return resolved
 
 

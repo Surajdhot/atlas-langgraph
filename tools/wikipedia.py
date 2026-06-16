@@ -26,6 +26,7 @@ def _resolve_title(query: str) -> str | None:
             params=params,
             timeout=config.HTTP_TIMEOUT_SECONDS,
             headers={"User-Agent": "Atlas-Research-Engine/1.0"},
+            follow_redirects=True,
         )
         response.raise_for_status()
         hits = response.json().get("query", {}).get("search", [])
@@ -43,6 +44,7 @@ def _fetch_summary(title: str, sub_question_id: str) -> list[Evidence]:
             url,
             timeout=config.HTTP_TIMEOUT_SECONDS,
             headers={"User-Agent": "Atlas-Research-Engine/1.0"},
+            follow_redirects=True,
         )
         response.raise_for_status()
         data = response.json()

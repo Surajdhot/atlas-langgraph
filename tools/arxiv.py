@@ -25,6 +25,7 @@ def _query_arxiv(query: str) -> list[dict]:
             config.ARXIV_API_URL,
             params=params,
             timeout=config.HTTP_TIMEOUT_SECONDS,
+            follow_redirects=True,
         )
         response.raise_for_status()
     except httpx.HTTPError as error:

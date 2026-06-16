@@ -41,7 +41,7 @@ Three technical centrepieces:
 
 | Concern        | Service                          | Key needed            |
 | -------------- | -------------------------------- | --------------------- |
-| LLM            | Google Gemini (`gemini-2.0-flash`) | free AI Studio key  |
+| LLM            | Google Gemini (`gemini-2.5-flash`) | free AI Studio key  |
 | Web search     | DuckDuckGo (`duckduckgo-search`) | none                  |
 | Encyclopaedia  | Wikipedia REST API               | none                  |
 | Papers         | arXiv API                        | none                  |
@@ -57,6 +57,20 @@ streamlit run app.py
 
 Get a free Google AI Studio key: https://aistudio.google.com/app/apikey
 LangSmith tracing is optional — leave `LANGCHAIN_API_KEY` blank to disable it.
+
+### Free-tier quota (important)
+
+The Gemini free tier is small: `gemini-2.5-flash` allows roughly **5 requests
+per minute and ~20 per day**. Each research run uses ~6–7 model calls, so you
+get only a few full runs per day. Atlas handles this gracefully:
+
+- 429 (rate-limit) and 503 (overload) errors retry with backoff, honouring the
+  delay the API suggests.
+- When the **daily** quota is exhausted, Atlas fails fast with a clear message
+  instead of spinning — it resets around midnight Pacific time.
+- To stretch the quota, set `MODEL=gemini-2.5-flash-lite` in `.env` (a separate,
+  lighter free model). `gemini-2.0-flash` and `gemini-1.5-flash` are **not**
+  available on the current free tier and will not work.
 
 ## Run with Docker
 

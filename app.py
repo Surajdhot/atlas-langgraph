@@ -13,6 +13,7 @@ import streamlit as st
 
 import config
 from graph import run
+from llm import DailyQuotaExceededError
 from models import Claim, Report
 
 logger = logging.getLogger(__name__)
@@ -101,6 +102,9 @@ def _run_with_progress(question: str) -> None:
     except EnvironmentError as error:
         status.update(label="Configuration error", state="error")
         st.error(str(error))
+    except DailyQuotaExceededError as error:
+        status.update(label="Free-tier quota reached", state="error")
+        st.warning(str(error))
     except (RuntimeError, ValueError) as error:
         status.update(label="Research failed", state="error")
         logger.exception("Research run failed")
